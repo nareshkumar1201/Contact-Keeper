@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
   try {
     //verify token -- on verify we get only payload (not header,secret)
     const payload = jwt.verify(token, config.get("jwtSecret"));
-    console.log("payloadd token", payload);
+
     req.user = payload.user;
     next();
   } catch (err) {
