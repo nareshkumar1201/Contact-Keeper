@@ -1,10 +1,34 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
+import AuthContext from "../../context/auth/AuthContext";
+import AlertContext from "../../context/alert/AlertContext";
 
-const Login = () => {
+const Login = (props) => {
+  const { loginUser, error, clearErrors, isAuthenticated } = useContext(
+    AuthContext
+  );
+  const { showAlert } = useContext(AlertContext);
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // redirect to Home page
+      props.history.push("/");
+    }
+    if (error === "password does not match") {
+      showAlert(error, "danger");
+      clearErrors();
+    }
+
+    if (error === "Invalid Crendentials or not Registered") {
+      showAlert(error, "danger");
+      clearErrors();
+    }
+
+    //  eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const { email, password } = user;
 
@@ -13,8 +37,13 @@ const Login = () => {
   };
 
   const onSubmit = (e) => {
+    if (email === "" || password === "") {
+      showAlert("email & password is required");
+    } else {
+      loginUser({ email, password });
+    }
+    //console.log("submit Login user");
     e.preventDefault();
-    console.log("submit Login user");
   };
   return (
     <Fragment>
@@ -31,7 +60,6 @@ const Login = () => {
               value={email}
               placeholder="Enter Email"
               onChange={onChange}
-              required
             />
           </div>
 
@@ -43,7 +71,6 @@ const Login = () => {
               value={password}
               placeholder="Enter Password"
               onChange={onChange}
-              required
             />
           </div>
           <div className="form-group">

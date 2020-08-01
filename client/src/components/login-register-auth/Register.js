@@ -1,12 +1,31 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
+import AlertContext from "../../context/alert/AlertContext";
+import AuthContext from "../../context/auth/AuthContext";
 
-const Register = () => {
+const Register = (props) => {
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+  const { showAlert } = alertContext;
+  const { registerUser, error, clearErrors, isAuthenticated } = authContext;
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
     confirmPwd: "",
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // redirect to Home page
+      props.history.push("/");
+    }
+    if (error === "email already exists") {
+      showAlert(error, "danger");
+      clearErrors();
+    }
+
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const { name, email, password, confirmPwd } = user;
 
@@ -16,7 +35,19 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Register User");
+    if (name === "" || email === "" || password === "") {
+      showAlert("Please Enter All Fields", "danger");
+    } else if (password !== confirmPwd) {
+      showAlert("password and ConfirmPwd should be same", "danger");
+    } else {
+      registerUser({
+        name,
+        email,
+        password,
+      });
+      // console.log("Register User");
+      // showAlert("Your Have Been Registered ...Login in Now", "success");
+    }
   };
   return (
     <Fragment>
@@ -33,7 +64,6 @@ const Register = () => {
               value={name}
               placeholder="Enter Name"
               onChange={onChange}
-              required
             />
           </div>
 
@@ -45,7 +75,6 @@ const Register = () => {
               value={email}
               placeholder="Enter Email"
               onChange={onChange}
-              required
             />
           </div>
 
@@ -57,7 +86,7 @@ const Register = () => {
               value={password}
               placeholder="Enter Password"
               onChange={onChange}
-              required
+              minLength="6"
             />
           </div>
 
@@ -69,7 +98,6 @@ const Register = () => {
               value={confirmPwd}
               placeholder="ReEnter Password"
               onChange={onChange}
-              required
             />
           </div>
           <div className="form-group">
