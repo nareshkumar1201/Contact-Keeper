@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../modals/User");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const { body, check, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 //@route  -  POST  api/users
 //@desc   -  Regiter a user
@@ -62,7 +62,7 @@ router.post(
         }
       );
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       return res.status(500).send("server error");
     }
   }

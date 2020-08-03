@@ -49,7 +49,6 @@ const AuthState = (props) => {
     };
     try {
       const res = await axios.post("/api/user", formData, config);
-      console.log(res.data);
       //response from server will be token , referenced through res.data
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       loadUser();
@@ -69,7 +68,6 @@ const AuthState = (props) => {
     };
     try {
       const res = await axios.post("/api/auth", formData, config);
-      console.log(res.data);
       //response from server will be token , referenced through res.data
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       loadUser();

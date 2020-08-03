@@ -41,10 +41,10 @@ function Navbar({ title, icon }) {
   );
   return (
     <div className="navbar bg-primary">
-      <h1>
-        <i className={icon}></i>
-        {title}
-      </h1>
+      <h3>
+        <i className={icon}> </i>
+        <span className="m-1">{title}</span>
+      </h3>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
   );

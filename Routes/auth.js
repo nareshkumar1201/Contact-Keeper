@@ -4,7 +4,7 @@ const User = require("../modals/User");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const middlewareAuth = require("../middleware/auth");
-const { body, check, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 // 2 FUNCTIONALITY  1)GET loged user 2)login the user
 
@@ -30,7 +30,6 @@ router.post(
     const { email, password } = req.body;
     try {
       let user = await User.findOne({ email: email });
-      // console.log(user);
       if (!user) {
         return res
           .status(400)
@@ -62,7 +61,7 @@ router.post(
         }
       );
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       res.status(500).send("Server Error");
     }
   }
@@ -79,7 +78,7 @@ router.get("/", middlewareAuth, async (req, res, next) => {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     res.status(401).json({ msg: "Server Error" });
   }
 });

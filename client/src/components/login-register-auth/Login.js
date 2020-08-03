@@ -55,7 +55,7 @@ const Login = (props) => {
           <div className="form-group">
             <label htmlFor="email">Email :</label>
             <input
-              type="text"
+              type="email"
               name="email"
               value={email}
               placeholder="Enter Email"

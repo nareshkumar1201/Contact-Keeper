@@ -19,7 +19,7 @@ router.get("/", middlewareAuth, async (req, res, next) => {
     });
     res.json(contacts);
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     res.status(500).send("Server Error");
   }
 });
@@ -55,7 +55,7 @@ router.post(
       const contact = await newContact.save();
       res.json(contact);
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       res.status(500).send("Server Error");
     }
   }
@@ -76,7 +76,7 @@ router.put("/:id", middlewareAuth, async (req, res, next) => {
 
   try {
     const existedContact = await Contact.findById(req.params.id);
-    console.log(existedContact.user);
+    // console.log(existedContact.user);
     if (!existedContact)
       return res.status(404).json({ msg: "Contact Not Found" });
 
@@ -91,7 +91,7 @@ router.put("/:id", middlewareAuth, async (req, res, next) => {
     );
     res.json(updatedContact);
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     res.status(500).send("Server Error");
   }
 });
@@ -118,7 +118,7 @@ router.delete("/:id", middlewareAuth, async (req, res, next) => {
     await Contact.findByIdAndRemove(req.params.id);
     res.json({ msg: "Contact Deleted" });
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     res.status(500).json("Server Error");
   }
 });
